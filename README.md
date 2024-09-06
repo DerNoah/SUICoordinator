@@ -46,7 +46,7 @@ The ```makeView(with:coordinator:)``` function is used to configure and instanti
 
 
 ## AppCoordinator
-**AppCoordinator** is a default coodinator class which can be used to have the basic funcionality of a coordinator: ```push```and ```pop```
+**AppCoordinator** is a default coodinator class which can be used to have the basic funcionality of a coordinator: ```push``` and ```pop```
 
 
 ## NavigationCoordinatorView
