@@ -45,12 +45,12 @@ struct YourNextDestination: Destination {
 The ```makeView(with:coordinator:)``` function is used to configure and instantiate your next view which will be pushed.
 
 
-## AppCoordinator
+### AppCoordinator
 **AppCoordinator** is a default coodinator class which can be used to have the basic funcionality of a coordinator: ```push``` and ```pop```
 
 
-## NavigationCoordinatorView
+### NavigationCoordinatorView
 Is the root view where your stack is wrapped in. 
 
-## TODO
+### TODO
 - Functionality to modify Stack
