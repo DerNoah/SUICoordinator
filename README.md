@@ -37,7 +37,7 @@ struct YourNextDestination: Destination {
     let identifier: String = "NextDestinationIdentifier"
     
     func makeView(with dependencies: Dependencies, coordinator: any Coordinator) -> some View {
-		YourNextView(dependencies: dependencies)
+	    YourNextView(dependencies: dependencies)
     }
 }
 ```
