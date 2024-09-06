@@ -1,20 +1,20 @@
 //
 //  AppCoordinator.swift
-//  aurora
+//  SUICoordinator
 //
-//  Created by Noah Plützer on 19.05.24.
+//  Created by Noah Plützer on 06.09.24.
 //
 
 import SwiftUI
 
-final class AppCoordinator<Dependencies>: Coordinator, ObservableObject {
+public final class AppCoordinator<Dependencies>: Coordinator, ObservableObject {
     @Published var navigationPath: NavigationPath
     
-    init(navigationPath: NavigationPath) {
+    public init(navigationPath: NavigationPath) {
         self.navigationPath = navigationPath
     }
     
-    func push<D>(destination: D) where D: Destination {
+    public func push<D>(destination: D) where D: Destination {
         let anyDestination = AnyDestination(
             identifier: destination.identifier,
             viewBuilder: { [unowned self] dependencyContainer in
@@ -24,7 +24,7 @@ final class AppCoordinator<Dependencies>: Coordinator, ObservableObject {
         navigationPath.append(anyDestination)
     }
     
-    func pop() {
+    public func pop() {
         navigationPath.removeLast()
     }
 }

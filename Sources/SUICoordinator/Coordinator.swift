@@ -1,13 +1,13 @@
 //
 //  Coordinator.swift
-//  aurora
+//  SUICoordinator
 //
-//  Created by Noah Plützer on 19.05.24.
+//  Created by Noah Plützer on 06.09.24.
 //
 
 import Foundation
 
-protocol Coordinator {
+public protocol Coordinator {
     func push<D: Destination>(destination: D)
     func pop()
 }

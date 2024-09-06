@@ -1,13 +1,13 @@
 //
 //  Destination.swift
-//  aurora
+//  SUICoordinator
 //
-//  Created by Noah Plützer on 19.05.24.
+//  Created by Noah Plützer on 06.09.24.
 //
 
 import SwiftUI
 
-protocol Destination<Dependencies>: Hashable {
+public protocol Destination<Dependencies>: Hashable {
     associatedtype DestinationView: View
     associatedtype Dependencies
     associatedtype DestinationIdentifier: Hashable
@@ -18,20 +18,25 @@ protocol Destination<Dependencies>: Hashable {
     func makeView(with dependencies: Dependencies, coordinator: Coordinator) -> DestinationView
 }
 
-struct AnyDestination<Dependencies>: Destination {
-    let identifier: AnyHashable
+public struct AnyDestination<Dependencies>: Destination {
+    public let identifier: AnyHashable
     
     var viewBuilder: (Dependencies) -> any View
     
-    func makeView(with dependencies: Dependencies, coordinator: any Coordinator) -> AnyView {
+    public init(identifier: AnyHashable, viewBuilder: @escaping (Dependencies) -> any View) {
+        self.identifier = identifier
+        self.viewBuilder = viewBuilder
+    }
+    
+    public func makeView(with dependencies: Dependencies, coordinator: any Coordinator) -> AnyView {
         AnyView(viewBuilder(dependencies))
     }
     
-    static func == (lhs: AnyDestination<Dependencies>, rhs: AnyDestination<Dependencies>) -> Bool {
+    public static func == (lhs: AnyDestination<Dependencies>, rhs: AnyDestination<Dependencies>) -> Bool {
         lhs.identifier == rhs.identifier
     }
     
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(identifier)
     }
 }

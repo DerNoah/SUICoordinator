@@ -1,19 +1,19 @@
 //
 //  NavigationCoordinatorView.swift
-//  APP-release
+//  SUICoordinator
 //
-//  Created by Noah Plützer on 04.06.24.
+//  Created by Noah Plützer on 06.09.24.
 //
 
 import SwiftUI
 
-struct NavigationCoordinatorView<RootView: View, Dependencies>: View {
+public struct NavigationCoordinatorView<RootView: View, Dependencies>: View {
     private let dependencies: Dependencies
     @ObservedObject private var coordinator: AppCoordinator<Dependencies>
     
     let rootView: (AppCoordinator<Dependencies>) -> RootView
     
-    init(
+    public init(
         dependencies: Dependencies,
         @ViewBuilder rootView: @escaping (AppCoordinator<Dependencies>) -> RootView
     ) {
@@ -24,7 +24,7 @@ struct NavigationCoordinatorView<RootView: View, Dependencies>: View {
         self.rootView = rootView
     }
     
-    var body: some View {
+    public var body: some View {
         NavigationStack(path: $coordinator.navigationPath) {
             rootView(coordinator)
                 .navigationDestination(for: AnyDestination<Dependencies>.self) { destination in
