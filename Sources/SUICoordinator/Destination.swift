@@ -7,36 +7,37 @@
 
 import SwiftUI
 
-public protocol Destination<Dependencies>: Hashable {
-    associatedtype DestinationView: View
-    associatedtype Dependencies
-    associatedtype DestinationIdentifier: Hashable
-    
-    var identifier: DestinationIdentifier { get }
-    
-    @ViewBuilder
-    func makeView(with dependencies: Dependencies, coordinator: Coordinator) -> DestinationView
+protocol Destination<Dependencies>: Hashable, Identifiable {
+	associatedtype DestinationView: View
+	associatedtype Dependencies
+	associatedtype DestinationIdentifier: Hashable
+	
+	var id: DestinationIdentifier { get }
+	
+	@ViewBuilder
+	func makeView(with dependencies: Dependencies, rootCoordinator: AppCoordinator<Dependencies>) -> DestinationView
 }
 
-public struct AnyDestination<Dependencies>: Destination {
-    public let identifier: AnyHashable
-    
-    var viewBuilder: (Dependencies) -> any View
-    
-    public init(identifier: AnyHashable, viewBuilder: @escaping (Dependencies) -> any View) {
-        self.identifier = identifier
-        self.viewBuilder = viewBuilder
-    }
-    
-    public func makeView(with dependencies: Dependencies, coordinator: any Coordinator) -> AnyView {
-        AnyView(viewBuilder(dependencies))
-    }
-    
-    public static func == (lhs: AnyDestination<Dependencies>, rhs: AnyDestination<Dependencies>) -> Bool {
-        lhs.identifier == rhs.identifier
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(identifier)
-    }
+extension Destination {
+	func eraseToAnyDestination(dependencies: Dependencies, rootCoordinator: AppCoordinator<Dependencies>) -> AnyDestination {
+		AnyDestination(id: id, viewBuilder: { makeView(with: dependencies, rootCoordinator: rootCoordinator) })
+	}
+}
+
+public struct AnyDestination: Identifiable, Hashable {
+	public let id: AnyHashable
+	
+	var viewBuilder: () -> any View
+	
+	func makeView() -> AnyView {
+		AnyView(viewBuilder())
+	}
+	
+	public static func == (lhs: AnyDestination, rhs: AnyDestination) -> Bool {
+		lhs.id == rhs.id
+	}
+	
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(id)
+	}
 }
